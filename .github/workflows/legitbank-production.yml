@@ -3,6 +3,7 @@ name: LegitBank Production
 on:
   push:
     branches:
+      - main
       - master
     paths:
       - 'banks/legitbank/**'
