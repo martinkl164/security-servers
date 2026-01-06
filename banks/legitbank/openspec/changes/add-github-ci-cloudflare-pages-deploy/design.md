@@ -5,10 +5,11 @@ The LegitBank frontend is a static Vite build intended for deployment to Cloudfl
 - Goals:
   - Run automated checks (typecheck/lint, unit tests, production build) on GitHub.
   - Deploy to Cloudflare Pages only when checks pass on the default branch.
+  - Deploy a Cloudflare Pages preview build for pull requests when checks are green.
 - Non-goals:
   - Adding end-to-end tests.
   - Adding backend/server infrastructure.
-  - Creating preview deployments per PR (can be added later).
+  - Preview deployments for fork pull requests (secrets are not available).
 
 ## CI Strategy
 - Use GitHub Actions for CI.
@@ -24,5 +25,5 @@ The LegitBank frontend is a static Vite build intended for deployment to Cloudfl
 - `CLOUDFLARE_PAGES_PROJECT_NAME` (variable or secret): Pages project name.
 
 ## Notes
-- The deploy job should be configured to run only on the default branch (typically `main`).
-- If the repository default branch differs (e.g. `master`), update the workflow branch filter.
+- The deploy job should be configured to run only on the default branch (`master` in this repo).
+- If the repository default branch changes, update the workflow branch filter accordingly.

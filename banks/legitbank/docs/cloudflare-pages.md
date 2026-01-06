@@ -56,8 +56,10 @@ npx wrangler@3 pages deploy dist --project-name <your-pages-project-name>
 ```
 
 ## 6) How CI/CD behaves
-- On pull requests: CI runs (typecheck/lint, unit tests, build). No deploy.
-- On merge to the default branch (`main`): CI runs and, if green, deploy runs to Cloudflare Pages.
+- On pull requests: CI runs (typecheck/lint, unit tests, build). If green, a Cloudflare Pages preview deploy runs.
+- On merge to the default branch (`master`): CI runs and, if green, a production deploy runs to Cloudflare Pages.
+
+Note: for security reasons, GitHub does not provide repository secrets to workflows triggered from fork pull requests. Preview deploys are therefore limited to PRs opened from branches within the same repository.
 
 ## Production URL
 - https://bank-legit.pages.dev
