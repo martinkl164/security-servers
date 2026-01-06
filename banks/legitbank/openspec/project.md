@@ -2,7 +2,7 @@
 # Project Context
 
 ## Purpose
-FakeBank is a spec-driven demo banking application used to showcase a clean frontend experience and OpenSpec-driven delivery.
+LegitBank (Super Legit Bank) is a spec-driven demo banking application used to showcase a clean frontend experience and OpenSpec-driven delivery.
 
 ## Tech Stack
 - Primary language: TypeScript
