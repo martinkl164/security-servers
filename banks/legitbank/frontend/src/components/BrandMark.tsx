@@ -7,7 +7,7 @@ export default function BrandMark({ className }: BrandMarkProps) {
     <span
       className={
         className ??
-        'inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-white'
+        'inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary-600 text-white'
       }
       aria-label="Super Legit Bank logo mark"
       title="Super Legit Bank"

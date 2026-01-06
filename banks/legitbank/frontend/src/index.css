@@ -7,9 +7,27 @@
 }
 
 body {
-  @apply bg-slate-50 text-slate-900;
+  @apply bg-neutral-50 text-neutral-900;
 }
 
 a {
   @apply underline-offset-4;
+}
+
+@layer components {
+  .slb-card {
+    @apply rounded-2xl border border-primary-200 bg-white;
+  }
+
+  .slb-input {
+    @apply w-full rounded-md border border-primary-200 px-3 py-2 text-neutral-900 placeholder:text-neutral-400 disabled:opacity-60;
+  }
+
+  .slb-button {
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium disabled:opacity-60;
+  }
+
+  .slb-button-primary {
+    @apply slb-button bg-primary-700 text-white hover:bg-primary-800;
+  }
 }

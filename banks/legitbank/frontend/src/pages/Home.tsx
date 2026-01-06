@@ -1,15 +1,15 @@
 export default function Home() {
   return (
     <div className="space-y-10">
-      <section className="space-y-4 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-8">
-        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-emerald-950">
+      <section className="space-y-4 rounded-2xl border border-primary-100 bg-primary-50/50 p-8">
+        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary-950">
           Simple banking for modern life.
         </h1>
-        <p className="text-slate-700 max-w-3xl leading-relaxed">
+        <p className="text-neutral-700 max-w-3xl leading-relaxed">
           Super Legit Bank provides straightforward accounts and reliable everyday
           tools designed for clarity and control.
         </p>
-        <p className="text-sm text-slate-600">Trusted by 1,200,000+ clients worldwide (mock).</p>
+        <p className="text-sm text-neutral-600">Trusted by 1,200,000+ clients worldwide (mock).</p>
       </section>
 
       <section aria-labelledby="features" className="space-y-4">
@@ -20,13 +20,13 @@ export default function Home() {
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <li
             data-testid="feature"
-            className="rounded-lg border border-emerald-200 bg-white p-4"
+            className="rounded-lg border border-primary-200 bg-white p-4"
           >
             <div className="flex items-start gap-3">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
-                className="mt-0.5 h-6 w-6 text-emerald-700"
+                className="mt-0.5 h-6 w-6 text-primary-700"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
@@ -38,7 +38,7 @@ export default function Home() {
               </svg>
               <div className="space-y-1">
                 <h3 className="font-medium">Everyday Checking &amp; Savings</h3>
-                <p className="text-sm text-slate-700">
+                <p className="text-sm text-neutral-700">
                   Reliable checking and savings accounts designed for daily financial
                   needs, with balances updated on a regular basis.
                 </p>
@@ -48,13 +48,13 @@ export default function Home() {
 
           <li
             data-testid="feature"
-            className="rounded-lg border border-emerald-200 bg-white p-4"
+            className="rounded-lg border border-primary-200 bg-white p-4"
           >
             <div className="flex items-start gap-3">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
-                className="mt-0.5 h-6 w-6 text-emerald-700"
+                className="mt-0.5 h-6 w-6 text-primary-700"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
@@ -66,7 +66,7 @@ export default function Home() {
               </svg>
               <div className="space-y-1">
                 <h3 className="font-medium">Fast Transfers</h3>
-                <p className="text-sm text-slate-700">
+                <p className="text-sm text-neutral-700">
                   Move funds between accounts efficiently with streamlined processing
                   and standard settlement times.
                 </p>
@@ -76,13 +76,13 @@ export default function Home() {
 
           <li
             data-testid="feature"
-            className="rounded-lg border border-emerald-200 bg-white p-4"
+            className="rounded-lg border border-primary-200 bg-white p-4"
           >
             <div className="flex items-start gap-3">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
-                className="mt-0.5 h-6 w-6 text-emerald-700"
+                className="mt-0.5 h-6 w-6 text-primary-700"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
@@ -96,7 +96,7 @@ export default function Home() {
               </svg>
               <div className="space-y-1">
                 <h3 className="font-medium">Mobile App Access</h3>
-                <p className="text-sm text-slate-700">
+                <p className="text-sm text-neutral-700">
                   Securely view balances, review transaction history, and manage
                   accounts through our mobile application.
                 </p>
@@ -106,13 +106,13 @@ export default function Home() {
 
           <li
             data-testid="feature"
-            className="rounded-lg border border-emerald-200 bg-white p-4"
+            className="rounded-lg border border-primary-200 bg-white p-4"
           >
             <div className="flex items-start gap-3">
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
-                className="mt-0.5 h-6 w-6 text-emerald-700"
+                className="mt-0.5 h-6 w-6 text-primary-700"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
@@ -122,7 +122,7 @@ export default function Home() {
               </svg>
               <div className="space-y-1">
                 <h3 className="font-medium">Security</h3>
-                <p className="text-sm text-slate-700">
+                <p className="text-sm text-neutral-700">
                   Account protection includes login alerts, PIN-based access, and
                   controls aligned with industry-standard security practices.
                 </p>

@@ -1,9 +1,15 @@
 import type { Config } from 'tailwindcss';
+import colors from 'tailwindcss/colors';
 
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: colors.emerald,
+        neutral: colors.slate,
+      },
+    },
   },
   plugins: [],
 } satisfies Config;

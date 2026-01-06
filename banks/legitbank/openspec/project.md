@@ -1,3 +1,4 @@
+
 # Project Context
 
 ## Purpose
@@ -19,14 +20,47 @@ FakeBank is a spec-driven demo banking application used to showcase a clean fron
 - **TDD-first**: Write tests from acceptance criteria (ACs) and scenarios in OpenSpec specs.
 	- Implement the minimum code to satisfy the ACs.
 	- Refactor after tests pass; keep behavior unchanged.
-- **Reuse-first**: Prefer reusing and extending existing components/utilities over introducing new ones.
-	- Only add new abstractions when they reduce duplication and clarify intent.
+- **Reuse-first**:
+	- Prefer reusing existing components, utilities, patterns, and content instead of creating new.
+	- Refactor and generalize when practical; avoid duplication (DRY) and keep interfaces consistent.
+	- Share UI building blocks via Tailwind `@layer components` and design tokens; prioritize consistency over novelty.
+	- Reuse data models and API endpoints; evolve schemas with backward-compatible changes and clear migrations.
+	- Introduce new dependencies or primitives only with documented rationale and allowlisting; keep the stack lean.
 - **Best practices + SOLID**:
 	- Single Responsibility: keep modules focused.
+		- UI components render UI; move non-trivial logic into hooks/services.
 	- Open/Closed: prefer extension over modification when practical.
+		- Prefer composable components and configuration over one-off forks.
 	- Liskov + Interface Segregation: keep contracts small and substitutable.
+		- Prefer small prop/types; avoid “god” interfaces that force unrelated deps.
 	- Dependency Inversion: depend on abstractions for seams that need testing/mocking.
+		- Hide side effects behind interfaces/adapters; inject via props/hooks where practical.
 	- Keep side effects isolated and testable.
+
+### Tailwind Practices
+- **Tailwind Usage**: Allowed as utility-first CSS.
+	- Configure `content` purge to remove unused classes.
+	- Avoid inline `style` attributes.
+	- Prefer `@layer components` for reusable patterns.
+	- Keep CSS minimal and respect performance budgets.
+	- Do not include third-party UI kits that inject scripts or tracking.
+- **Design Tokens**:
+	- Define colors, spacing, and typography in `tailwind.config.*` theme extension.
+	- Reference via semantic names (e.g., `primary`, `surface`) instead of hardcoded values.
+
+### React + Vite Practices
+- Prefer functional components + hooks; keep components mostly pure and deterministic.
+- Keep state local by default; lift state only when multiple siblings truly need it.
+- Avoid hidden coupling: pass data via props, not module-level singletons.
+- Keep browser-safe code: do not rely on Node-only APIs in the frontend.
+- Use Vite environment variables via `import.meta.env` (never `process.env`).
+- Keep the bundle lean: prefer small dependencies and avoid unnecessary polyfills.
+
+### Frontend Organization
+- Keep routes in `src/AppRoutes.tsx` and pages in `src/pages/*`.
+- Keep reusable UI in `src/components/*`; prefer small, composable components.
+- Keep shared styling primitives in `src/index.css` using Tailwind `@layer` (minimal custom CSS).
+- Co-locate tests next to what they validate (e.g., `Home.test.tsx` next to `Home.tsx`).
 
 ### Code Style
 - Prefer clear, explicit names over cleverness.
