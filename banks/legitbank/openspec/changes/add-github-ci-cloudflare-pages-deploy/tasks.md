@@ -5,4 +5,5 @@
 - [x] 1.4 Add a preview deploy job for pull requests that runs only after CI is green
 - [x] 1.5 Document required GitHub repository secrets/variables for Cloudflare Pages deploy
 - [x] 1.6 Post a pull request comment with the preview URL after successful preview deploy (update an existing comment to avoid duplicates)
-- [x] 1.7 Run `npm run build` and `npm run lint` and `npm test` locally to ensure no regressions
+- [x] 1.7 Add an auto-PR workflow that creates a pull request when a new branch is pushed
+- [x] 1.8 Run `npm run build` and `npm run lint` and `npm test` locally to ensure no regressions

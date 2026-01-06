@@ -88,3 +88,13 @@ When a pull request preview deploy completes successfully, the CI system SHALL p
 - **THEN** the pull request shows a comment containing the Cloudflare Pages preview URL
 - **AND** the comment is updated on subsequent commits to avoid posting duplicates
 
+### Requirement: Auto-create pull requests for new branches
+The CI system SHALL automatically create a pull request when a new branch is pushed, excluding production branches.
+
+#### Scenario: New branch triggers auto-PR creation
+- **WHEN** a developer pushes a new branch to the repository
+- **AND** the branch is not `main` or `master`
+- **THEN** a pull request is automatically created targeting the production branch
+- **AND** the PR includes an auto-generated title
+- **AND** the PR body prompts the developer to complete the description
+

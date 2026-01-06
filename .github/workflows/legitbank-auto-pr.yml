@@ -1,0 +1,54 @@
+name: LegitBank Auto-PR
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - master
+    paths:
+      - 'banks/legitbank/**'
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  auto_create_pr:
+    name: Auto-create PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check if PR exists
+        id: check_pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+          echo "branch_name=$BRANCH_NAME" >> "$GITHUB_OUTPUT"
+          
+          # Check if PR already exists for this branch
+          PR_EXISTS=$(gh pr list --head "$BRANCH_NAME" --json number --jq 'length')
+          echo "pr_exists=$PR_EXISTS" >> "$GITHUB_OUTPUT"
+
+      - name: Create pull request
+        if: steps.check_pr.outputs.pr_exists == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH_NAME: ${{ steps.check_pr.outputs.branch_name }}
+        run: |
+          # Extract a title from the branch name
+          TITLE=$(echo "$BRANCH_NAME" | sed 's/_/ /g; s/-/ /g; s/\b\(.\)/\u\1/g')
+          
+          # Create PR with auto-generated title and empty body
+          gh pr create \
+            --title "feat: $TITLE" \
+            --body "Auto-created PR for branch \`$BRANCH_NAME\`.
+
+Please update this description with:
+- What changed
+- Why it changed
+- Any testing notes" \
+            --base master \
+            --head "$BRANCH_NAME"

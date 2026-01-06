@@ -9,6 +9,7 @@ We want a repeatable, automated pipeline that verifies the frontend stays builda
   - Unit tests
   - Production build
 - Add a deployment job that deploys the built static assets to Cloudflare Pages using the Wrangler CLI.
+- Add an auto-PR workflow that creates a pull request automatically when a new branch is pushed.
 - Document required Cloudflare secrets and configuration values.
 
 ## Impact

@@ -36,3 +36,13 @@ After a successful preview deployment, the system SHALL publish the preview URL 
 - **WHEN** the pipeline completes the preview deploy job for a pull request
 - **THEN** the pull request shows a comment containing the Cloudflare Pages preview URL
 - **AND** subsequent deploys update the existing comment rather than creating duplicates
+
+### Requirement: Auto-create pull requests for new branches
+The system SHALL automatically create a pull request when a new branch is pushed (excluding the production branches).
+
+#### Scenario: PR is auto-created on branch push
+- **WHEN** a developer pushes a new branch to the repository
+- **AND** the branch is not `main` or `master`
+- **THEN** a pull request is automatically created targeting `master`
+- **AND** the PR includes an auto-generated title based on the branch name
+- **AND** the PR body prompts the developer to add a description
