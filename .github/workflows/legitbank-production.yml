@@ -84,4 +84,4 @@ jobs:
             exit 1
           fi
 
-          npx wrangler@3 pages deploy dist --project-name "$CLOUDFLARE_PAGES_PROJECT_NAME"
+          npx wrangler@3 pages deploy dist --project-name "$CLOUDFLARE_PAGES_PROJECT_NAME" --commit-dirty=true
