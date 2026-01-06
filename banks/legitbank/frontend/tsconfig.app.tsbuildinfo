@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/approutes.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/appshell.tsx","./src/components/brandmark.tsx","./src/pages/home.tsx","./src/pages/login.tsx"],"version":"5.9.3"}
+{"root":["./src/app.tsx","./src/approutes.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/appshell.test.tsx","./src/components/appshell.tsx","./src/components/brandmark.tsx","./src/pages/home.test.tsx","./src/pages/home.tsx","./src/pages/login.test.tsx","./src/pages/login.tsx","./src/test/setup.ts"],"version":"5.9.3"}

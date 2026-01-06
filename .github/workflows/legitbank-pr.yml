@@ -1,0 +1,150 @@
+name: LegitBank PR
+
+on:
+  pull_request:
+    paths:
+      - 'banks/legitbank/**'
+      - '.github/workflows/legitbank-pr.yml'
+      - '.github/workflows/legitbank-production.yml'
+  workflow_dispatch:
+
+jobs:
+  quality_gate:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: banks/legitbank/frontend
+    steps:
+      - name: Checkout (PR head)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: banks/legitbank/frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint (typecheck)
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+  preview_deploy:
+    name: Preview Deploy
+    needs: quality_gate
+    runs-on: ubuntu-latest
+    concurrency:
+      group: legitbank-preview-pr-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    defaults:
+      run:
+        working-directory: banks/legitbank/frontend
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout (PR head)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: banks/legitbank/frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy preview to Cloudflare Pages
+        env:
+          IS_FORK: ${{ github.event.pull_request.head.repo.full_name != github.repository }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_PAGES_PROJECT_NAME_VAR: ${{ vars['CLOUDFLARE_PAGES_PROJECT_NAME'] }}
+          CLOUDFLARE_PAGES_PROJECT_NAME_SECRET: ${{ secrets['CLOUDFLARE_PAGES_PROJECT_NAME'] }}
+          PREVIEW_BRANCH: pr-${{ github.event.pull_request.number }}
+        run: |
+          if [ "$IS_FORK" = "true" ]; then
+            echo "Preview deploy is disabled for fork pull requests (GitHub does not provide secrets)."
+            exit 0
+          fi
+
+          CLOUDFLARE_PAGES_PROJECT_NAME="${CLOUDFLARE_PAGES_PROJECT_NAME_VAR:-$CLOUDFLARE_PAGES_PROJECT_NAME_SECRET}"
+
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$CLOUDFLARE_PAGES_PROJECT_NAME" ]; then
+            echo "Missing Cloudflare configuration (secrets/vars)."
+            exit 1
+          fi
+
+          output_file="$(mktemp)"
+          npx wrangler@3 pages deploy dist --project-name "$CLOUDFLARE_PAGES_PROJECT_NAME" --branch "$PREVIEW_BRANCH" | tee "$output_file"
+
+          preview_url="$(grep -Eo 'https://[^ ]+' "$output_file" | head -n 1 || true)"
+          if [ -z "$preview_url" ]; then
+            preview_url="https://${PREVIEW_BRANCH}.${CLOUDFLARE_PAGES_PROJECT_NAME}.pages.dev"
+          fi
+
+          echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
+        id: deploy
+
+      - name: Comment preview URL on PR
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.preview_url }}
+        with:
+          script: |
+            const marker = '<!-- legitbank-preview -->';
+            const prNumber = context.payload.pull_request.number;
+            const sha = context.payload.pull_request.head.sha;
+            const previewUrl = process.env.PREVIEW_URL;
+
+            const body = [
+              marker,
+              '### LegitBank Preview Deploy',
+              `- Preview URL: ${previewUrl}`,
+              `- Commit: ${sha}`,
+              `- Branch: pr-${prNumber}`,
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              per_page: 100,
+            });
+
+            const existing = comments.find(c => (c.body || '').includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body,
+              });
+            }
