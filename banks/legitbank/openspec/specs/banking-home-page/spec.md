@@ -1,7 +1,7 @@
 # banking-home-page Specification
 
 ## Purpose
-TBD - created by archiving change add-banking-home-page. Update Purpose after archive.
+Provide a marketing-focused Home page at route `/` with professional copy, feature highlights, and a trust indicator. The page serves as the landing page for the LegitBank demo and does not include account-specific widgets or data.
 ## Requirements
 ### Requirement: Provide a Home page at route /
 The system SHALL provide a Home page at route /.

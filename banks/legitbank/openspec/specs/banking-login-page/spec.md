@@ -1,7 +1,7 @@
 # banking-login-page Specification
 
 ## Purpose
-TBD - created by archiving change add-banking-login-page. Update Purpose after archive.
+Provide a mock Login page at route `/login` with a fully frontend-mocked authentication flow. The page accepts non-empty credentials, displays a success state, and redirects to the Home page without requiring backend calls.
 
 ## Requirements
 ### Requirement: Provide a Login page at route /login
