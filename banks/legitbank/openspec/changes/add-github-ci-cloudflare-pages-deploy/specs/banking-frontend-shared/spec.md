@@ -28,3 +28,11 @@ The system SHALL deploy a Cloudflare Pages preview build for pull requests when 
 - **WHEN** a pull request is opened or updated
 - **AND** the CI checks pass
 - **THEN** the pipeline deploys a preview build to Cloudflare Pages
+
+### Requirement: Notify pull request with the preview URL
+After a successful preview deployment, the system SHALL publish the preview URL to the pull request.
+
+#### Scenario: Preview URL is posted after deploy
+- **WHEN** the pipeline completes the preview deploy job for a pull request
+- **THEN** the pull request shows a comment containing the Cloudflare Pages preview URL
+- **AND** subsequent deploys update the existing comment rather than creating duplicates

@@ -4,4 +4,5 @@
 - [x] 1.3 Add a deploy job that runs only on `master`, and deploys `banks/legitbank/frontend/dist/` to Cloudflare Pages using the Wrangler CLI
 - [x] 1.4 Add a preview deploy job for pull requests that runs only after CI is green
 - [x] 1.5 Document required GitHub repository secrets/variables for Cloudflare Pages deploy
-- [x] 1.5 Run `npm run build` and `npm run lint` and `npm test` locally to ensure no regressions
+- [x] 1.6 Post a pull request comment with the preview URL after successful preview deploy (update an existing comment to avoid duplicates)
+- [x] 1.7 Run `npm run build` and `npm run lint` and `npm test` locally to ensure no regressions

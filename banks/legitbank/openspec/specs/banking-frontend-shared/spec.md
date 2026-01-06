@@ -1,7 +1,7 @@
 # banking-frontend-shared Specification
 
 ## Purpose
-TBD - created by archiving change add-banking-frontend-shared. Update Purpose after archive.
+Provide shared frontend foundations for the LegitBank demo app, including layout, branding, navigation, styling conventions, and CI/CD requirements for static hosting.
 ## Requirements
 ### Requirement: Provide shared frontend foundations for Super Legit Bank
 The system SHALL provide shared frontend artifacts that can be reused across all Super Legit Bank pages.
@@ -79,4 +79,12 @@ UI component and page tests SHALL be co-located next to the UI modules they vali
 #### Scenario: Tests are discoverable next to UI code
 - **WHEN** a developer opens a page or component module
 - **THEN** the related `.test.tsx` file is located alongside it
+
+### Requirement: Post PR preview URL after preview deploy
+When a pull request preview deploy completes successfully, the CI system SHALL publish the preview URL in the pull request.
+
+#### Scenario: Preview URL is posted on the PR
+- **WHEN** a pull request preview deploy succeeds
+- **THEN** the pull request shows a comment containing the Cloudflare Pages preview URL
+- **AND** the comment is updated on subsequent commits to avoid posting duplicates
 

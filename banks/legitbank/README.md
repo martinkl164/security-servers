@@ -1,5 +1,8 @@
 # LegitBank (Super Legit Bank)
 
+[![LegitBank PR](https://github.com/martinkl164/security-servers/actions/workflows/legitbank-pr.yml/badge.svg?branch=master)](https://github.com/martinkl164/security-servers/actions/workflows/legitbank-pr.yml)
+[![LegitBank Production](https://github.com/martinkl164/security-servers/actions/workflows/legitbank-production.yml/badge.svg?branch=master)](https://github.com/martinkl164/security-servers/actions/workflows/legitbank-production.yml)
+
 Spec-driven demo banking UI used for learning and workflow practice.
 
 This is **not a real bank** and includes **no real authentication, payments, or banking actions**. Do not use this project to facilitate wrongdoing.
@@ -20,4 +23,4 @@ This is **not a real bank** and includes **no real authentication, payments, or 
 - OpenSpec conventions: [openspec/project.md](openspec/project.md)
 
 ## Hosted
-- https://bank-legit.pages.dev
+- Production: https://bank-legit.pages.dev

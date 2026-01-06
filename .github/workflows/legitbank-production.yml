@@ -1,0 +1,86 @@
+name: LegitBank Production
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'banks/legitbank/**'
+      - '.github/workflows/legitbank-pr.yml'
+      - '.github/workflows/legitbank-production.yml'
+  workflow_dispatch:
+
+jobs:
+  quality_gate:
+    name: Quality Gate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: banks/legitbank/frontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: banks/legitbank/frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint (typecheck)
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+  production_release:
+    name: Production Release
+    needs: quality_gate
+    runs-on: ubuntu-latest
+    concurrency:
+      group: legitbank-pages-production
+      cancel-in-progress: true
+    defaults:
+      run:
+        working-directory: banks/legitbank/frontend
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: banks/legitbank/frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy production to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_PAGES_PROJECT_NAME_VAR: ${{ vars['CLOUDFLARE_PAGES_PROJECT_NAME'] }}
+          CLOUDFLARE_PAGES_PROJECT_NAME_SECRET: ${{ secrets['CLOUDFLARE_PAGES_PROJECT_NAME'] }}
+        run: |
+          CLOUDFLARE_PAGES_PROJECT_NAME="${CLOUDFLARE_PAGES_PROJECT_NAME_VAR:-$CLOUDFLARE_PAGES_PROJECT_NAME_SECRET}"
+
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$CLOUDFLARE_PAGES_PROJECT_NAME" ]; then
+            echo "Missing Cloudflare configuration (secrets/vars)."
+            exit 1
+          fi
+
+          npx wrangler@3 pages deploy dist --project-name "$CLOUDFLARE_PAGES_PROJECT_NAME"
