@@ -13,6 +13,10 @@ Create a Pages project in the Cloudflare dashboard.
 - Project type: Static site
 - Output directory (build output): `dist`
 
+Important:
+- Set the Pages **Production branch** to match the branch you merge to for production releases (for this repo, `master`).
+- If your repository uses `main` instead, set the Production branch to `main` and update the workflow branch filters accordingly.
+
 Notes:
 - This repo’s frontend is a static Vite build (no server required).
 - GitHub Actions will deploy using Wrangler, so you do not need to connect Pages to GitHub if you don’t want to.
